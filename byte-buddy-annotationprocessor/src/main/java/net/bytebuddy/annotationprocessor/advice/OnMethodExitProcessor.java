@@ -40,7 +40,7 @@ public class OnMethodExitProcessor extends AbstractByteBuddyAnnotationProcessor 
                 checkForAmbiguousUsageOfAnnotationsOnMultipleMethods(executableElement, Advice.OnMethodExit.class);
 
                 // check if it is declared as static
-                getFluentModifierElementValidator(element).setCustomMessage(Diagnostic.Kind.ERROR, Messages.COMMON__METHOD_MUST_BE_STATIC.getMessage()).hasModifiers(Modifier.STATIC);
+                getFluentModifierElementValidator(element).setCustomMessage(Diagnostic.Kind.ERROR, Messages.COMMON__METHOD_MUST_BE_STATIC.getMessage(), Advice.OnMethodExit.class.getSimpleName()).hasModifiers(Modifier.STATIC);
 
 
             }
