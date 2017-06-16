@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>byte-buddy-parent</artifactId>
+        <groupId>net.bytebuddy</groupId>
+        <version>1.6.15-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>byte-buddy-annotationprocessor</artifactId>
+
+    <name>Byte Buddy annotation processor</name>
+    <description>Annotation processor that ensures correct usage of annotations provided by byte buddy at compile
+        time.
+    </description>
+
+    <properties>
+        <annotationprocessortoolkit.version>0.3.0</annotationprocessortoolkit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>byte-buddy-dep</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.holisticon.annotationprocessortoolkit</groupId>
+            <artifactId>annotationprocessor</artifactId>
+            <version>${annotationprocessortoolkit.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>de.holisticon.annotationprocessortoolkit</groupId>
+            <artifactId>testhelper</artifactId>
+            <version>${annotationprocessortoolkit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                    <source>${code.level}</source>
+                    <target>${code.level}</target>
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <!-- need to relocate used 3rd party dependencies and their transitive dependencies -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.holisticon.annotationprocessortoolkit</pattern>
+                                    <shadedPattern>
+                                        net.bytebuddy.annotationprocessor._3rdparty.de.holisticon.annotationprocessortoolkit
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+
+</project>

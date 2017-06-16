@@ -1,0 +1,12 @@
+net.bytebuddy.annotationprocessor.advice.AllArgumentsProcessor
+net.bytebuddy.annotationprocessor.advice.ArgumentProcessor
+net.bytebuddy.annotationprocessor.advice.EnterProcessor
+net.bytebuddy.annotationprocessor.advice.FieldValueProcessor
+net.bytebuddy.annotationprocessor.advice.OnMethodEnterProcessor
+net.bytebuddy.annotationprocessor.advice.OnMethodExitProcessor
+net.bytebuddy.annotationprocessor.advice.OriginProcessor
+net.bytebuddy.annotationprocessor.advice.ReturnProcessor
+net.bytebuddy.annotationprocessor.advice.StubValueProcessor
+net.bytebuddy.annotationprocessor.advice.ThisProcessor
+net.bytebuddy.annotationprocessor.advice.ThrownProcessor
+net.bytebuddy.annotationprocessor.advice.UnusedProcessor
