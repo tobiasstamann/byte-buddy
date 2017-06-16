@@ -20,17 +20,20 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>The annotated parameter must be a String</item>
- * <item>a constant representing the Class</item>
- * <item>a constant representing the Method</item>
- * <item>a constant representing the Constructor</item>
- * <item>a java.lang.reflect.Executable</item>
+ * <item>The annotated parameter must be a String
+ * <item>a constant representing the Class
+ * <item>a constant representing the Method
+ * <item>a constant representing the Constructor
+ * <item>a java.lang.reflect.Executable
  * </ul>
  */
 public class OriginProcessor extends AbstractByteBuddyAnnotationProcessor {
 
 
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Origin.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Origin.class);
 
 
     /**

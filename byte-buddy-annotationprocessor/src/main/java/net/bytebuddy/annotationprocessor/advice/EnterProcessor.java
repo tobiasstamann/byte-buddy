@@ -21,15 +21,17 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>must be used inside method annotated with {@link net.bytebuddy.asm.Advice.OnMethodExit}</item>
- * <item>(just cause warning) method annotated with {@link net.bytebuddy.asm.Advice.OnMethodEnter} must be present in advice class</item>
- * <item>(just cause warning) type must match to corresponding {@link net.bytebuddy.asm.Advice.OnMethodEnter} return value type</item>
+ * <item>must be used inside method annotated with {@link net.bytebuddy.asm.Advice.OnMethodExit}
+ * <item>(just cause warning) method annotated with {@link net.bytebuddy.asm.Advice.OnMethodEnter} must be present in advice class
+ * <item>(just cause warning) type must match to corresponding {@link net.bytebuddy.asm.Advice.OnMethodEnter} return value type
  * </ul>
  */
 public class EnterProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Enter.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Enter.class);
 
 
     /**

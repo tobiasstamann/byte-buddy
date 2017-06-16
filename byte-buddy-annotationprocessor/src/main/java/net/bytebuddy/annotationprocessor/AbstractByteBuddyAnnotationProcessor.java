@@ -15,6 +15,12 @@ import java.util.List;
  */
 public abstract class AbstractByteBuddyAnnotationProcessor extends AbstractAnnotationProcessor {
 
+    /**
+     * Validated if passed annotation is used on multiple methods of enclosing type of passed methods Element.
+     *
+     * @param elementUnderValidation the element to validate
+     * @param annotation             The annotation to look for
+     */
     public void checkForAmbiguousUsageOfAnnotationsOnMultipleMethods(Element elementUnderValidation, Class<? extends Annotation> annotation) {
 
 

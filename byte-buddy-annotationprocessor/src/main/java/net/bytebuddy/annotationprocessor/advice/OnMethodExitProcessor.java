@@ -17,13 +17,15 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>annotated method has to be static.</item>
+ * <item>annotated method has to be static.
  * </ul>
  */
 public class OnMethodExitProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.OnMethodExit.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.OnMethodExit.class);
 
 
     /**

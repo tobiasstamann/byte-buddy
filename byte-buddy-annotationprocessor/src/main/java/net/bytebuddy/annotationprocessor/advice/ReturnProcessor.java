@@ -15,14 +15,16 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>should be used on parameters in a method annotated with {@link net.bytebuddy.asm.Advice.OnMethodExit}</item>
+ * <item>should be used on parameters in a method annotated with {@link net.bytebuddy.asm.Advice.OnMethodExit}
  * </ul>
  */
 
 public class ReturnProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Return.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Return.class);
 
 
     /**
@@ -42,7 +44,7 @@ public class ReturnProcessor extends AbstractByteBuddyAnnotationProcessor {
                 }
 
             }
-            
+
         }
         return false;
     }

@@ -17,16 +17,16 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>the parameter type should be assignable to Throwable</item>
+ * <item>the parameter type should be assignable to Throwable
  * </ul>
  */
 
-//TODO TS: should output warning if annotated parameter is not of type Throwable?
-
 public class ThrownProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Thrown.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Thrown.class);
 
 
     /**
@@ -60,10 +60,8 @@ public class ThrownProcessor extends AbstractByteBuddyAnnotationProcessor {
                     // if not, check if it is assignable to Throwable
                     if (getTypeUtils().isAssignableTo(parameterElement.asType(), throwableTypeMirror)) {
                         this.getMessager().warning(parameterElement, Messages.THROWN__SHOULD_BE_THROWABLE.getMessage());
-                    }
-
-                    // otherwise report error
-                    else {
+                    } else {
+                        // otherwise report error
                         this.getMessager().error(parameterElement, Messages.THROWN__SHOULD_AT_LEAST_EXTEND_THROWABLE.getMessage());
                     }
                 }

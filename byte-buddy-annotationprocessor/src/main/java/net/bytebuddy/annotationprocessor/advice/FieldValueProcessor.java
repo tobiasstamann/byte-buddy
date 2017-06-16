@@ -16,13 +16,15 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>None</item>
+ * <item>None
  * </ul>
  */
 public class FieldValueProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.FieldValue.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.FieldValue.class);
 
 
     /**

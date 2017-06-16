@@ -16,19 +16,20 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>The annotated parameter must be an array type</item>
- * <item>The annotation should be used on parameters of methods annotated either with {@link Advice.OnMethodEnter} or {@link Advice.OnMethodExit}</item>
+ * <item>The annotated parameter must be an array type
+ * <item>The annotation should be used on parameters of methods annotated either with {@link Advice.OnMethodEnter} or {@link Advice.OnMethodExit}
  * </ul>
  */
 public class AllArgumentsProcessor extends AbstractByteBuddyAnnotationProcessor {
 
 
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.AllArguments.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.AllArguments.class);
 
 
     /**
-     * hi
-     *
      * @inheritDoc
      */
     @Override
@@ -54,11 +55,9 @@ public class AllArgumentsProcessor extends AbstractByteBuddyAnnotationProcessor 
 
                     getMessager().error(parameterElement, Messages.ALL_ARGUMENTS__ANNOTATED_PARAMETER_MUST_BE_ARRAY.getMessage());
 
-                }
-                // check if annotated parameter is an object array for best compatibility
-                else if (!getTypeUtils().isArrayOfType(parameterElement.asType(), Object.class)) {
+                } else if (!getTypeUtils().isArrayOfType(parameterElement.asType(), Object.class)) {
 
-
+                    // check if annotated parameter is an object array for best compatibility
                     getMessager().warning(element, Messages.ALL_ARGUMENTS__ANNOTATED_PARAMETER_SHOULD_BE_OBJECT_ARRAY.getMessage());
 
                 }

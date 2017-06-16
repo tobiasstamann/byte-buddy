@@ -16,13 +16,16 @@ import java.util.Set;
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>should be used on parameters in a method annotated either with {@link net.bytebuddy.asm.Advice.OnMethodEnter} or {@link net.bytebuddy.asm.Advice.OnMethodExit}</item>
+ * <item>should be used on parameters in a method annotated either with {@link net.bytebuddy.asm.Advice.OnMethodEnter} or {@link net.bytebuddy.asm.Advice.OnMethodExit}
  * </ul>
  */
 
 public class ArgumentProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-    private final static Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Argument.class);
+    /**
+     * the supported annotation types.
+     */
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.Argument.class);
 
     /**
      * @inheritDoc
@@ -37,7 +40,7 @@ public class ArgumentProcessor extends AbstractByteBuddyAnnotationProcessor {
 
                 // check if parent is either annotated Advice.OnMethodEnter or Advice.OnMethodExit
                 if (Validator.ANNOTATION_VALIDATOR.getValidator().hasNoneOf(enclosingElement, Advice.OnMethodEnter.class, Advice.OnMethodExit.class)) {
-                    getMessager().warning(element, Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getMessage(), "Advice." +Advice.Argument.class.getSimpleName());
+                    getMessager().warning(element, Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getMessage(), "Advice." + Advice.Argument.class.getSimpleName());
                 }
 
 
