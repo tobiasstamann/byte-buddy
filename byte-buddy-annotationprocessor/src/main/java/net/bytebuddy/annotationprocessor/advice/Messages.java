@@ -65,6 +65,7 @@ public enum Messages {
      */
     THROWN__SHOULD_AT_LEAST_EXTEND_THROWABLE("THROWN_02", "Parameter annotated with annotation Advice." + Advice.Thrown.class.getSimpleName() + " must be at least assignable to Throwable");
 
+    private static boolean printMessageCodes = false;
 
     /**
      * the message code.
@@ -101,8 +102,17 @@ public enum Messages {
      * @return the message text
      */
     public String getMessage() {
-        return "[" + code + "] : " + message;
+        return (printMessageCodes ? "[" + code + "] : " : "") + message;
     }
 
+
+    /**
+     * Allows toggling if message codes should be printed.
+     *
+     * @param printMessageCodes
+     */
+    public static void setPrintMessageCodes(boolean printMessageCodes) {
+        Messages.printMessageCodes = printMessageCodes;
+    }
 
 }

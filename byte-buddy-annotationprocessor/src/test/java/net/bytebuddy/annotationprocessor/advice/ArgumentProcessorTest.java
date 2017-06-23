@@ -1,6 +1,7 @@
 package net.bytebuddy.annotationprocessor.advice;
 
 import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -16,6 +17,10 @@ import java.util.List;
 
 public class ArgumentProcessorTest extends AbstractAnnotationProcessorTest<ArgumentProcessor> {
 
+    @Before
+    public void init() {
+        Messages.setPrintMessageCodes(true);
+    }
 
     public ArgumentProcessorTest(String description, String resource, String[] errors, String[] warnings) {
         super(description, resource, errors, warnings);

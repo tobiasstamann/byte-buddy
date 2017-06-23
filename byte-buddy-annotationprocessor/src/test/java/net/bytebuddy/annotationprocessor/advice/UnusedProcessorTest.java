@@ -1,6 +1,7 @@
 package net.bytebuddy.annotationprocessor.advice;
 
 import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -16,6 +17,11 @@ public class UnusedProcessorTest extends AbstractAnnotationProcessorTest<UnusedP
 
     public UnusedProcessorTest(String description, String resource, String[] errors, String[] warnings) {
         super(description, resource, errors, warnings);
+    }
+
+    @Before
+    public void init() {
+        Messages.setPrintMessageCodes(true);
     }
 
     @Override
