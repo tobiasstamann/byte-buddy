@@ -10,3 +10,9 @@ net.bytebuddy.annotationprocessor.advice.StubValueProcessor
 net.bytebuddy.annotationprocessor.advice.ThisProcessor
 net.bytebuddy.annotationprocessor.advice.ThrownProcessor
 net.bytebuddy.annotationprocessor.advice.UnusedProcessor
+net.bytebuddy.annotationprocessor.bind.AllArgumentsProcessor
+net.bytebuddy.annotationprocessor.bind.ArgumentProcessor
+net.bytebuddy.annotationprocessor.bind.OriginProcessor
+net.bytebuddy.annotationprocessor.bind.StubValueProcessor
+net.bytebuddy.annotationprocessor.bind.ThisProcessor
+

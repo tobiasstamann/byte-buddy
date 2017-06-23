@@ -1,9 +1,10 @@
-package net.bytebuddy.annotationprocessor.advice;
+package net.bytebuddy.annotationprocessor.bind;
 
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
 import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
-import net.bytebuddy.asm.Advice;
+import net.bytebuddy.annotationprocessor.advice.Messages;
+import net.bytebuddy.implementation.bind.annotation.StubValue;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -12,20 +13,20 @@ import javax.lang.model.element.VariableElement;
 import java.util.Set;
 
 /**
- * Annotation processor for {@link net.bytebuddy.asm.Advice.StubValue} annotation.
+ * Annotation processor for {@link StubValue} annotation.
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
  * <item>The annotated parameter must be a of type Object
- * <item>should be used on parameters in a method annotated with {@link net.bytebuddy.asm.Advice.OnMethodExit}
  * </ul>
  */
 public class StubValueProcessor extends AbstractByteBuddyAnnotationProcessor {
 
+
     /**
      * the supported annotation types.
      */
-    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.StubValue.class);
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(StubValue.class);
 
 
     /**
@@ -33,13 +34,9 @@ public class StubValueProcessor extends AbstractByteBuddyAnnotationProcessor {
      */
     @Override
     public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-        for (Element element : roundEnv.getElementsAnnotatedWith(Advice.StubValue.class)) {
-
-            // check if parent is annotated Advice.OnMethodExit
-            this.checkIfEnclosingMethodIsAnnotatatedWithNoneOf(element, Messages.COMMON__NO_ON_METHOD_EXIT_ANNOTATION_ON_ENCLOSING_METHOD, Advice.Enter.class, Advice.OnMethodExit.class);
+        for (Element element : roundEnv.getElementsAnnotatedWith(StubValue.class)) {
 
 
-            // check if parent is either annotated Advice.OnMethodExit
             VariableElement variableElement = ElementUtils.CastElement.castParameter(element);
 
             // check for annotated parameter type

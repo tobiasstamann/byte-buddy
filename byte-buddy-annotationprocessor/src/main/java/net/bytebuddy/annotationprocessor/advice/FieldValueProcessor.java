@@ -1,7 +1,5 @@
 package net.bytebuddy.annotationprocessor.advice;
 
-import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
 import net.bytebuddy.asm.Advice;
 
@@ -36,14 +34,8 @@ public class FieldValueProcessor extends AbstractByteBuddyAnnotationProcessor {
         for (Element element : roundEnv.getElementsAnnotatedWith(Advice.FieldValue.class)) {
 
             // check if parent is either annotated Advice.OnMethodEnter or Advice.OnMethodExit
-            Element enclosingElement = element.getEnclosingElement();
-            if (ElementUtils.CheckKindOfElement.isMethod(enclosingElement)) {
+            this.checkIfEnclosingMethodIsAnnotatatedWithNoneOf(element, Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD, Advice.FieldValue.class, Advice.OnMethodEnter.class, Advice.OnMethodExit.class);
 
-                if (Validator.ANNOTATION_VALIDATOR.getValidator().hasNoneOf(enclosingElement, Advice.OnMethodEnter.class, Advice.OnMethodExit.class)) {
-                    getMessager().warning(element, Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getMessage(), "Advice." + Advice.FieldValue.class.getSimpleName());
-                }
-
-            }
 
         }
 

@@ -1,8 +1,9 @@
-package net.bytebuddy.annotationprocessor.advice;
+package net.bytebuddy.annotationprocessor.bind;
 
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
-import net.bytebuddy.asm.Advice;
+import net.bytebuddy.annotationprocessor.advice.Messages;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -11,21 +12,20 @@ import javax.lang.model.element.VariableElement;
 import java.util.Set;
 
 /**
- * Annotation processor for {@link net.bytebuddy.asm.Advice.AllArguments} annotation.
+ * Annotation processor for {@link net.bytebuddy.implementation.bind.annotation.AllArguments} annotation.
  * <p/>
  * According to the documentation there are the following constraints on the usage of this annotation:
  * <ul>
- * <item>The annotated parameter must be an array type
- * <item>The annotation should be used on parameters of methods annotated either with {@link Advice.OnMethodEnter} or {@link Advice.OnMethodExit}
+ * <item>The annotated parameter must be an array type (error)
+ * <item>The arrays component type should be Object to ensure best compatibility of interceptor (warning)
  * </ul>
  */
 public class AllArgumentsProcessor extends AbstractByteBuddyAnnotationProcessor {
 
-
     /**
      * the supported annotation types.
      */
-    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(Advice.AllArguments.class);
+    private static final Set<String> SUPPORTED_ANNOTATION_TYPES = createSupportedAnnotationSet(AllArguments.class);
 
 
     /**
@@ -33,10 +33,7 @@ public class AllArgumentsProcessor extends AbstractByteBuddyAnnotationProcessor 
      */
     @Override
     public boolean process(final Set<? extends TypeElement> annotations, final RoundEnvironment roundEnv) {
-        for (Element element : roundEnv.getElementsAnnotatedWith(Advice.AllArguments.class)) {
-
-            // check if parent is either annotated Advice.OnMethodEnter or Advice.OnMethodExit
-            this.checkIfEnclosingMethodIsAnnotatatedWithNoneOf(element, Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD, Advice.AllArguments.class, Advice.OnMethodEnter.class, Advice.OnMethodExit.class);
+        for (Element element : roundEnv.getElementsAnnotatedWith(AllArguments.class)) {
 
             // check if annotated parameter is an array type
             if (ElementUtils.CheckKindOfElement.isParameter(element)) {

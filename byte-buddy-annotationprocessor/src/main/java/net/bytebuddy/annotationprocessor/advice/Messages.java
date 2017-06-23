@@ -24,6 +24,10 @@ public enum Messages {
      */
     COMMON__METHOD_MUST_BE_STATIC("COMMON_04", "Method annotated with Advice.${0} must be declared as static"),
     /**
+     * COMMON__PARAMETER_MUST_NOT_HAVE_PRIMITIVE_TYPE.
+     */
+    COMMON__PARAMETER_MUST_NOT_HAVE_PRIMITIVE_TYPE("COMMON_05", "Parameter annotated with annotation ${0} must not have a primitive type."),
+    /**
      * ALL_ARGUMENTS__ANNOTATED_PARAMETER_SHOULD_BE_OBJECT_ARRAY.
      */
     ALL_ARGUMENTS__ANNOTATED_PARAMETER_SHOULD_BE_OBJECT_ARRAY("ALLARGUMENTS_01", "Parameter annotated with annotation Advice." + Advice.AllArguments.class.getSimpleName()
@@ -65,6 +69,9 @@ public enum Messages {
      */
     THROWN__SHOULD_AT_LEAST_EXTEND_THROWABLE("THROWN_02", "Parameter annotated with annotation Advice." + Advice.Thrown.class.getSimpleName() + " must be at least assignable to Throwable");
 
+    /**
+     * Flag that defines if messages codes will be written as part of the message.
+     */
     private static boolean printMessageCodes = false;
 
     /**
@@ -109,7 +116,7 @@ public enum Messages {
     /**
      * Allows toggling if message codes should be printed.
      *
-     * @param printMessageCodes
+     * @param printMessageCodes defines if message codes should be part of the message text
      */
     public static void setPrintMessageCodes(boolean printMessageCodes) {
         Messages.printMessageCodes = printMessageCodes;

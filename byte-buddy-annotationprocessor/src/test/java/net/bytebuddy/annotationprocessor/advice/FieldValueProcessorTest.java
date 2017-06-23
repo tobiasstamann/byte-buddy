@@ -14,7 +14,7 @@ import java.util.List;
  * Test for {@link UnusedProcessorTest}.
  */
 @RunWith(Parameterized.class)
-public class FieldValueProcessorTest extends AbstractAnnotationProcessorTest<UnusedProcessor> {
+public class FieldValueProcessorTest extends AbstractAnnotationProcessorTest<FieldValueProcessor> {
 
     public FieldValueProcessorTest(String description, String resource, String[] errors, String[] warnings) {
         super(description, resource, errors, warnings);

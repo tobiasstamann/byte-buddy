@@ -3,7 +3,6 @@ package net.bytebuddy.annotationprocessor.advice;
 import de.holisticon.annotationprocessortoolkit.filter.FluentElementFilter;
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
 import de.holisticon.annotationprocessortoolkit.tools.characteristicsfilter.Filter;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
 import net.bytebuddy.asm.Advice;
 
@@ -45,16 +44,8 @@ public class EnterProcessor extends AbstractByteBuddyAnnotationProcessor {
 
                 VariableElement parameterElement = ElementUtils.CastElement.castParameter(element);
 
-                // check if parent is either annotated Advice.OnMethodExit
-                Element enclosingElement = element.getEnclosingElement();
-                if (ElementUtils.CheckKindOfElement.isMethod(enclosingElement)) {
-
-                    // check if parent method is annotated with Advice.OnMethodExit
-                    if (Validator.ANNOTATION_VALIDATOR.getValidator().hasNoneOf(enclosingElement, Advice.OnMethodExit.class)) {
-                        getMessager().warning(element, Messages.COMMON__NO_ON_METHOD_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getMessage(), "Advice." + EnterProcessor.class.getSimpleName());
-                    }
-
-                }
+                // check if parent is annotated Advice.OnMethodExit
+                this.checkIfEnclosingMethodIsAnnotatatedWithNoneOf(element, Messages.COMMON__NO_ON_METHOD_EXIT_ANNOTATION_ON_ENCLOSING_METHOD, Advice.Enter.class, Advice.OnMethodExit.class);
 
 
                 // now check for existence of method annotated with OnMethodEnter

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RunWith(Parameterized.class)
-public class EnterProcessorTest extends AbstractAnnotationProcessorTest {
+public class EnterProcessorTest extends AbstractAnnotationProcessorTest<EnterProcessor> {
 
 
     public EnterProcessorTest(String description, String resource, String[] errors, String[] warnings) {
