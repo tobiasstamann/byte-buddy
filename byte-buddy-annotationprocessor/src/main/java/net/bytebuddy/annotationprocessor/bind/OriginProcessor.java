@@ -1,7 +1,7 @@
 package net.bytebuddy.annotationprocessor.bind;
 
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
+import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validators;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
 import net.bytebuddy.annotationprocessor.advice.Messages;
 import net.bytebuddy.implementation.bind.annotation.Origin;
@@ -55,14 +55,14 @@ public class OriginProcessor extends AbstractByteBuddyAnnotationProcessor {
                 VariableElement variableElement = ElementUtils.CastElement.castParameter(element);
 
                 // check for annotated parameter type
-                if (Validator.getTypeValidator(frameworkToolWrapper)
+                if (Validators.InAndExclusiveElementValidators.getRawTypeValidator(getFrameworkToolWrapper())
                         .hasNoneOf(variableElement, Class.class, String.class, Method.class, Constructor.class, Executable.class, int.class)) {
 
                     // Some restrictions does only work with java 7, so get the type mirrors for corresponding types
-                    TypeMirror methodHandleTypeMirror = getTypeUtils().getTypeMirror("java.lang.invoke.MethodHandle");
-                    TypeMirror methodTypeTypeMirror = getTypeUtils().getTypeMirror("java.lang.invoke.MethodType");
+                    TypeMirror methodHandleTypeMirror = getTypeUtils().doTypeRetrieval().getTypeMirror("java.lang.invoke.MethodHandle");
+                    TypeMirror methodTypeTypeMirror = getTypeUtils().doTypeRetrieval().getTypeMirror("java.lang.invoke.MethodType");
                     if (methodHandleTypeMirror != null && methodTypeTypeMirror != null) {
-                        if (!getTypeUtils().isAssignableTo(variableElement.asType(), methodHandleTypeMirror) && !getTypeUtils().isAssignableTo(variableElement.asType(), methodTypeTypeMirror)) {
+                        if (!getTypeUtils().doTypeComparison().isAssignableTo(variableElement.asType(), methodHandleTypeMirror) && !getTypeUtils().doTypeComparison().isAssignableTo(variableElement.asType(), methodTypeTypeMirror)) {
                             getMessager().error(variableElement, Messages.ORIGIN__INVALID_TYPE.getMessage());
                         }
                     } else {

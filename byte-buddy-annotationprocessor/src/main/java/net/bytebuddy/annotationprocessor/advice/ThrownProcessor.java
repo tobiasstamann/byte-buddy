@@ -45,11 +45,11 @@ public class ThrownProcessor extends AbstractByteBuddyAnnotationProcessor {
 
 
                 // Now check if annotated type is Throwable
-                TypeMirror throwableTypeMirror = getTypeUtils().getTypeMirror(Throwable.class);
-                if (!getTypeUtils().isErasedTypeEqual(throwableTypeMirror, parameterElement.asType())) {
+                TypeMirror throwableTypeMirror = getTypeUtils().doTypeRetrieval().getTypeMirror(Throwable.class);
+                if (!getTypeUtils().doTypeComparison().isErasedTypeEqual(throwableTypeMirror, parameterElement.asType())) {
 
                     // if not, check if it is assignable to Throwable
-                    if (getTypeUtils().isAssignableTo(parameterElement.asType(), throwableTypeMirror)) {
+                    if (getTypeUtils().doTypeComparison().isAssignableTo(parameterElement.asType(), throwableTypeMirror)) {
                         this.getMessager().warning(parameterElement, Messages.THROWN__SHOULD_BE_THROWABLE.getMessage());
                     } else {
                         // otherwise report error

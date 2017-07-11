@@ -1,6 +1,8 @@
 package net.bytebuddy.annotationprocessor.advice;
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +16,10 @@ import java.util.List;
  * Test for {@link UnusedProcessorTest}.
  */
 @RunWith(Parameterized.class)
-public class FieldValueProcessorTest extends AbstractAnnotationProcessorTest<FieldValueProcessor> {
+public class FieldValueProcessorTest extends AbstractAnnotationProcessorIntegrationTest<FieldValueProcessor> {
 
-    public FieldValueProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public FieldValueProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Before
@@ -34,8 +36,25 @@ public class FieldValueProcessorTest extends AbstractAnnotationProcessorTest<Fie
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage", "advice/fieldvalue/FieldValueProcessorTestValidUsage.java", new String[]{}, new String[]{}},
-                {"Test missing OnMethodEnter or OnMethodExit annotation on enclosing method", "advice/fieldvalue/FieldValueProcessorTestMissingOnMethodEnterOrExit.java", new String[]{}, new String[]{Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode()}},
+                {
+                        "Test valid usage",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/fieldvalue/FieldValueProcessorTestValidUsage.java")
+                                .compilationShouldSucceed()
+                                .build()
+                },
+                {
+                        "Test missing OnMethodEnter or OnMethodExit annotation on enclosing method",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/fieldvalue/FieldValueProcessorTestMissingOnMethodEnterOrExit.java")
+                                .compilationShouldSucceed()
+                                .addMessageValidator()
+                                .setWarningChecks(Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode())
+                                .finishMessageValidator()
+                                .build()
+                },
 
         });
 

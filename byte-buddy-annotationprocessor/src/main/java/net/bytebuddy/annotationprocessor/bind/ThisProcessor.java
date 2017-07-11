@@ -38,7 +38,7 @@ public class ThisProcessor extends AbstractByteBuddyAnnotationProcessor {
         for (Element element : roundEnv.getElementsAnnotatedWith(This.class)) {
 
             // check if types are matching
-            if (getTypeUtils().checkTypeKind().isPrimitive(element.asType())) {
+            if (getTypeUtils().doCheckTypeKind().isPrimitive(element.asType())) {
                 getMessager().error(element, Messages.COMMON__PARAMETER_MUST_NOT_HAVE_PRIMITIVE_TYPE.getMessage(), This.class.getSimpleName());
             }
 

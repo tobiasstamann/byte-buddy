@@ -1,6 +1,8 @@
 package net.bytebuddy.annotationprocessor.bind;
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import net.bytebuddy.annotationprocessor.advice.Messages;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +16,10 @@ import java.util.List;
  * Test for {@link net.bytebuddy.annotationprocessor.advice.ThisProcessor}.
  */
 @RunWith(Parameterized.class)
-public class ThisProcessorTest extends AbstractAnnotationProcessorTest<ThisProcessor> {
+public class ThisProcessorTest extends AbstractAnnotationProcessorIntegrationTest<ThisProcessor> {
 
-    public ThisProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public ThisProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
@@ -29,8 +31,25 @@ public class ThisProcessorTest extends AbstractAnnotationProcessorTest<ThisProce
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage", "bind/this/ThisProcessorTestValidUsage.java", new String[]{}, new String[]{}},
-                {"Test invalid usage on primitivetype", "bind/this/ThisProcessorTestInvalidUsageOnPrimitiveType.java", new String[]{Messages.COMMON__PARAMETER_MUST_NOT_HAVE_PRIMITIVE_TYPE.getCode()}, new String[]{}},
+                {
+                        "Test valid usage",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("bind/this/ThisProcessorTestValidUsage.java")
+                                .compilationShouldSucceed()
+                                .build()
+                },
+                {
+                        "Test invalid usage on primitivetype",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("bind/this/ThisProcessorTestInvalidUsageOnPrimitiveType.java")
+                                .compilationShouldFail()
+                                .addMessageValidator()
+                                .setErrorChecks(Messages.COMMON__PARAMETER_MUST_NOT_HAVE_PRIMITIVE_TYPE.getCode())
+                                .finishMessageValidator()
+                                .build()
+                },
 
         });
 

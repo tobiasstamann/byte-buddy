@@ -3,8 +3,8 @@ package net.bytebuddy.annotationprocessor;
 import de.holisticon.annotationprocessortoolkit.AbstractAnnotationProcessor;
 import de.holisticon.annotationprocessortoolkit.filter.FluentElementFilter;
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsfilter.Filter;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
+import de.holisticon.annotationprocessortoolkit.tools.characteristicsfilter.Filters;
+import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validators;
 import net.bytebuddy.annotationprocessor.advice.Messages;
 
 import javax.lang.model.element.Element;
@@ -29,7 +29,7 @@ public abstract class AbstractByteBuddyAnnotationProcessor extends AbstractAnnot
         Element enclosingElement = element.getEnclosingElement();
         if (ElementUtils.CheckKindOfElement.isMethod(enclosingElement)) {
 
-            if (Validator.ANNOTATION_VALIDATOR.getValidator().hasNoneOf(enclosingElement, annotations)) {
+            if (Validators.InAndExclusiveElementValidators.getAnnotationValidator().hasNoneOf(enclosingElement, annotations)) {
                 getMessager().warning(element, message.getMessage(), "Advice." + affectedAnnotation.getSimpleName());
             }
         }
@@ -46,8 +46,8 @@ public abstract class AbstractByteBuddyAnnotationProcessor extends AbstractAnnot
 
 
         if (FluentElementFilter.createFluentFilter((List<Element>) elementUnderValidation.getEnclosingElement().getEnclosedElements())
-                .applyFilter(Filter.ELEMENT_KIND_FILTER).filterByOneOf(ElementKind.METHOD)
-                .applyFilter(Filter.ANNOTATION_FILTER).filterByOneOf(annotation)
+                .applyFilter(Filters.getElementKindFilter()).filterByOneOf(ElementKind.METHOD)
+                .applyFilter(Filters.getAnnotationFilter()).filterByOneOf(annotation)
                 .hasMultipleElements()) {
             getMessager().error(elementUnderValidation, Messages.COMMON__AMBIGUOUS_ON_MESSAGE_ENTER_OR_EXIT_METHOD.getMessage(), "Advice." + annotation.getSimpleName());
         }

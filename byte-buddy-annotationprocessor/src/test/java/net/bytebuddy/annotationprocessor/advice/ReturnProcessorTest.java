@@ -1,7 +1,9 @@
 package net.bytebuddy.annotationprocessor.advice;
 
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class ReturnProcessorTest extends AbstractAnnotationProcessorTest<ReturnProcessor> {
+public class ReturnProcessorTest extends AbstractAnnotationProcessorIntegrationTest<ReturnProcessor> {
 
-    public ReturnProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public ReturnProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Before
@@ -31,8 +33,25 @@ public class ReturnProcessorTest extends AbstractAnnotationProcessorTest<ReturnP
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage", "advice/return/ReturnProcessorTestValidUsage.java", new String[]{}, new String[]{}},
-                {"Test missing OnMethodExit annotation on method", "advice/return/ReturnProcessorTestMissingOnMethodExit.java", new String[]{}, new String[]{Messages.COMMON__NO_ON_METHOD_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode()}},
+                {
+                        "Test valid usage",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/return/ReturnProcessorTestValidUsage.java")
+                                .compilationShouldSucceed()
+                                .build()
+                },
+                {
+                        "Test missing OnMethodExit annotation on method",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/return/ReturnProcessorTestMissingOnMethodExit.java")
+                                .compilationShouldSucceed()
+                                .addMessageValidator()
+                                .setWarningChecks(Messages.COMMON__NO_ON_METHOD_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode())
+                                .finishMessageValidator()
+                                .build()
+                },
         });
 
     }

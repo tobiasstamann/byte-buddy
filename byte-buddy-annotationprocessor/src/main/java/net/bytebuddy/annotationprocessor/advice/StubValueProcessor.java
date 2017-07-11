@@ -1,7 +1,7 @@
 package net.bytebuddy.annotationprocessor.advice;
 
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validator;
+import de.holisticon.annotationprocessortoolkit.tools.characteristicsvalidator.Validators;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
 import net.bytebuddy.asm.Advice;
 
@@ -43,7 +43,7 @@ public class StubValueProcessor extends AbstractByteBuddyAnnotationProcessor {
             VariableElement variableElement = ElementUtils.CastElement.castParameter(element);
 
             // check for annotated parameter type
-            if (Validator.getTypeValidator(frameworkToolWrapper)
+            if (Validators.InAndExclusiveElementValidators.getRawTypeValidator(getFrameworkToolWrapper())
                     .hasNoneOf(variableElement, Object.class)) {
                 getMessager().error(variableElement, Messages.STUBVALUE__INCOMPATIBLE_TYPE.getMessage());
             }

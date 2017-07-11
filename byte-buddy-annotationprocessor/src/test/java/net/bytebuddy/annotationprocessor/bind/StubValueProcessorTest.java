@@ -1,6 +1,8 @@
 package net.bytebuddy.annotationprocessor.bind;
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import net.bytebuddy.annotationprocessor.advice.Messages;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +16,11 @@ import java.util.List;
  * Test for {@link StubValueProcessor}.
  */
 @RunWith(Parameterized.class)
-public class StubValueProcessorTest extends AbstractAnnotationProcessorTest<StubValueProcessor> {
+public class StubValueProcessorTest extends AbstractAnnotationProcessorIntegrationTest<StubValueProcessor> {
 
 
-    public StubValueProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public StubValueProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
@@ -30,8 +32,25 @@ public class StubValueProcessorTest extends AbstractAnnotationProcessorTest<Stub
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage on Object parameter", "bind/stubvalue/StubValueProcessorTestValidObjectParameter.java", new String[]{}, new String[]{}},
-                {"Test invalid usage on Boolean parameter", "bind/stubvalue/StubValueProcessorTestInvalidParameterType.java", new String[]{Messages.STUBVALUE__INCOMPATIBLE_TYPE.getCode()}, new String[]{}},
+                {
+                        "Test valid usage on Object parameter",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("bind/stubvalue/StubValueProcessorTestValidObjectParameter.java")
+                                .compilationShouldSucceed()
+                                .build()
+                },
+                {
+                        "Test invalid usage on Boolean parameter",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("bind/stubvalue/StubValueProcessorTestInvalidParameterType.java")
+                                .compilationShouldFail()
+                                .addMessageValidator()
+                                .setErrorChecks(Messages.STUBVALUE__INCOMPATIBLE_TYPE.getCode())
+                                .finishMessageValidator()
+                                .build()
+                },
 
         });
 

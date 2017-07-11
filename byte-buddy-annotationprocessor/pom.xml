@@ -17,7 +17,7 @@
     </description>
 
     <properties>
-        <annotationprocessortoolkit.version>0.3.1</annotationprocessortoolkit.version>
+        <annotationprocessortoolkit.version>0.5.0</annotationprocessortoolkit.version>
     </properties>
 
     <dependencies>

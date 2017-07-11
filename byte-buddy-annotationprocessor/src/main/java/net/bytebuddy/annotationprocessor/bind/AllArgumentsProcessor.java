@@ -40,11 +40,11 @@ public class AllArgumentsProcessor extends AbstractByteBuddyAnnotationProcessor 
 
                 VariableElement parameterElement = ElementUtils.CastElement.castToVariableElement(element);
 
-                if (!getTypeUtils().checkTypeKind().isArray(parameterElement.asType())) {
+                if (!getTypeUtils().doCheckTypeKind().isArray(parameterElement.asType())) {
 
                     getMessager().error(parameterElement, Messages.ALL_ARGUMENTS__ANNOTATED_PARAMETER_MUST_BE_ARRAY.getMessage());
 
-                } else if (!getTypeUtils().isArrayOfType(parameterElement.asType(), Object.class)) {
+                } else if (!getTypeUtils().doArrays().isArrayOfType(parameterElement.asType(), Object.class)) {
 
                     // check if annotated parameter is an object array for best compatibility
                     getMessager().warning(element, Messages.ALL_ARGUMENTS__ANNOTATED_PARAMETER_SHOULD_BE_OBJECT_ARRAY.getMessage());

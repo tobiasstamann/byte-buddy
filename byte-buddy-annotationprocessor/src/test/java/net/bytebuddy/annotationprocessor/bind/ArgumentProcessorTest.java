@@ -1,6 +1,8 @@
 package net.bytebuddy.annotationprocessor.bind;
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,11 +16,11 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 
-public class ArgumentProcessorTest extends AbstractAnnotationProcessorTest<ArgumentProcessor> {
+public class ArgumentProcessorTest extends AbstractAnnotationProcessorIntegrationTest<ArgumentProcessor> {
 
 
-    public ArgumentProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public ArgumentProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
@@ -30,7 +32,14 @@ public class ArgumentProcessorTest extends AbstractAnnotationProcessorTest<Argum
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage", "bind/argument/ArgumentProcessorTestValidUsage.java", new String[]{}, new String[]{}}
+                {
+                        "Test valid usage",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("bind/argument/ArgumentProcessorTestValidUsage.java")
+                                .compilationShouldSucceed()
+                                .build()
+                }
         });
 
     }

@@ -2,7 +2,7 @@ package net.bytebuddy.annotationprocessor.advice;
 
 import de.holisticon.annotationprocessortoolkit.filter.FluentElementFilter;
 import de.holisticon.annotationprocessortoolkit.tools.ElementUtils;
-import de.holisticon.annotationprocessortoolkit.tools.characteristicsfilter.Filter;
+import de.holisticon.annotationprocessortoolkit.tools.characteristicsfilter.Filters;
 import net.bytebuddy.annotationprocessor.AbstractByteBuddyAnnotationProcessor;
 import net.bytebuddy.asm.Advice;
 
@@ -52,8 +52,8 @@ public class EnterProcessor extends AbstractByteBuddyAnnotationProcessor {
                 FluentElementFilter<Element> elementFilter = FluentElementFilter.createFluentFilter(
                         (List<Element>) element.getEnclosingElement().getEnclosingElement().getEnclosedElements()
                 )
-                        .applyFilter(Filter.ELEMENT_KIND_FILTER).filterByOneOf(ElementKind.METHOD)
-                        .applyFilter(Filter.ANNOTATION_FILTER).filterByOneOf(Advice.OnMethodEnter.class);
+                        .applyFilter(Filters.getElementKindFilter()).filterByOneOf(ElementKind.METHOD)
+                        .applyFilter(Filters.getAnnotationFilter()).filterByOneOf(Advice.OnMethodEnter.class);
 
                 if (elementFilter.isEmpty()) {
 

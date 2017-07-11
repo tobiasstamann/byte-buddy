@@ -1,6 +1,8 @@
 package net.bytebuddy.annotationprocessor.advice;
 
-import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.AbstractAnnotationProcessorIntegrationTest;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfiguration;
+import de.holisticon.annotationprocessortoolkit.testhelper.integrationtest.AnnotationProcessorIntegrationTestConfigurationBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,15 +17,15 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 
-public class ArgumentProcessorTest extends AbstractAnnotationProcessorTest<ArgumentProcessor> {
+public class ArgumentProcessorTest extends AbstractAnnotationProcessorIntegrationTest<ArgumentProcessor> {
 
     @Before
     public void init() {
         Messages.setPrintMessageCodes(true);
     }
 
-    public ArgumentProcessorTest(String description, String resource, String[] errors, String[] warnings) {
-        super(description, resource, errors, warnings);
+    public ArgumentProcessorTest(String description, AnnotationProcessorIntegrationTestConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
@@ -35,8 +37,25 @@ public class ArgumentProcessorTest extends AbstractAnnotationProcessorTest<Argum
     public static List<Object[]> data() {
 
         return Arrays.asList(new Object[][]{
-                {"Test valid usage", "advice/argument/ArgumentProcessorTestValidUsage.java", new String[]{}, new String[]{}},
-                {"Test missing OnMethodEnter and OnMethodExit annotation on method", "advice/argument/ArgumentProcessorTestMissingOnMethodEnterOrExit.java", new String[]{}, new String[]{Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode()}},
+                {
+                        "Test valid usage",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/argument/ArgumentProcessorTestValidUsage.java")
+                                .compilationShouldSucceed()
+                                .build()
+                },
+                {
+                        "Test missing OnMethodEnter and OnMethodExit annotation on method",
+                        AnnotationProcessorIntegrationTestConfigurationBuilder
+                                .createTestConfig()
+                                .setSourceFileToCompile("advice/argument/ArgumentProcessorTestMissingOnMethodEnterOrExit.java")
+                                .compilationShouldSucceed()
+                                .addMessageValidator()
+                                .setWarningChecks(Messages.COMMON__NO_ON_METHOD_ENTER_AND_EXIT_ANNOTATION_ON_ENCLOSING_METHOD.getCode())
+                                .finishMessageValidator()
+                                .build()
+                },
         });
 
     }
